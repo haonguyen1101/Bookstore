@@ -1,0 +1,230 @@
+﻿@model Bookstore.ModelViews.HomeViewVM
+
+@{
+    ViewData["Title"] = "MINHHAO Bookstore";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<!-- Begin Slider Area -->
+<div class="slider-area">
+
+    <!-- Main Slider -->
+    <div class="swiper-container main-slider-2 swiper-arrow with-bg_white">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide animation-style-01">
+                <div class="slide-inner bg-height" data-bg-image="images/banner-book-store.jpg">
+                    <div class="container">
+                        <div class="slide-content">
+                            <h2 class="title font-weight-bold mb-4">MINHHAO<br> Bookstore</h2>
+                            <p class="short-desc different-width mb-9">Mang đến tri thức mới</p>
+                            <div class="button-wrap">
+                                <a class="btn btn-custom-size lg-size btn-primary btn-white-hover rounded-0" href="shop.html">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide animation-style-01">
+                <div class="slide-inner bg-height" data-bg-image="images/banner-book-store.jpg">
+                    <div class="container">
+                        <div class="slide-content">
+                            <h2 class="title font-weight-bold mb-4">MINHHAO<br> Bookstore</h2>
+                            <p class="short-desc different-width mb-9">Mang đến tri thức mới</p>
+                            <div class="button-wrap">
+                                <a class="btn btn-custom-size lg-size btn-primary btn-white-hover rounded-0" href="shop.html">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination with-bg d-md-none"></div>
+
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+</div>
+<!-- Slider Area End Here -->
+
+<!-- Begin Shipping Area -->
+<div class="shipping-area section-space-y-axis-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="shipping-item">
+                    <div class="shipping-img">
+                        <img src="assets/images/shipping/icon/plane.png" alt="Shipping Icon">
+                    </div>
+                    <div class="shipping-content">
+                        <h5 class="title">Giao hàng nhanh chóng</h5>
+                        <p class="short-desc mb-0">Đổi trả trong 7 ngày</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 pt-6 pt-md-0">
+                <div class="shipping-item">
+                    <div class="shipping-img">
+                        <img src="assets/images/shipping/icon/earphones.png" alt="Shipping Icon">
+                    </div>
+                    <div class="shipping-content">
+                        <h5 class="title">Hỗ trợ online 24/7</h5>
+                        <p class="short-desc mb-0">Đường giây nóng 0366022854</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 pt-6 pt-lg-0">
+                <div class="shipping-item">
+                    <div class="shipping-img">
+                        <img src="assets/images/shipping/icon/shield.png" alt="Shipping Icon">
+                    </div>
+                    <div class="shipping-content">
+                        <h5 class="title">Bảo mật giao dịch</h5>
+                        <p class="short-desc mb-0">Nhiều tính năng giao dịch</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Shipping Area End Here -->
+
+<!-- Begin Product Area -->
+<div class="product-area section-space-y-axis-100">
+    <div class="container">
+        <div class="section-title text-center pb-55">
+            <h2 class="title mb-0">Sản phẩm hot</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="swiper-container product-slider swiper-arrow with-radius border-issue">
+                    <div class="swiper-wrapper">
+                        @if (Model.Products != null && Model.Products.Count() > 0)
+                        {
+                            foreach (var item in Model.Products)
+                            {
+                                if (item.Status == true)
+                                {
+                                    if (item.IsHot == true)
+                                    {
+                                        string url = $"/{item.BookId}_{item.BookName}.html";
+                                        <div class="swiper-slide">
+                                            <div class="product-item">
+                                                <div class="product-img img-zoom-effect">
+                                                    <a href="@url">
+                                                        <img class="img-full" src="/images/books/@item.Image" alt="@item.BookName">
+                                                    </a>
+                                                    <div class="product-add-action">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="cart.html">
+                                                                    <i class="pe-7s-cart"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@url">
+                                                                    <i class="pe-7s-shuffle"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="wishlist.html">
+                                                                    <i class="pe-7s-like"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content">
+                                                    <a class="product-name" href="@url">@item.BookName</a>
+                                                    <div class="price-box pb-1">
+                                                        <span class="new-price">
+                                                            @if (item.PromotionPrice == null)
+                                                            {
+                                                                <p class="text-center mb-0 fw-bold">@item.Price.Value.ToString("#,##0") VNĐ</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p class="text-center mb-0 fw-bold text-danger">Khuyến mãi @item.PromotionPrice.Value.ToString("#,##0") VNĐ</p>
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                    <div class="rating-box">
+                                                        <ul>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="swiper-nav-wrap">
+                        <div class="swiper-button-next"></div>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product Area End Here -->
+
+<!-- Begin Blog Area -->
+@if (Model.TinTucs != null && Model.TinTucs.Count() > 0)
+{
+    <div class="blog-area section-space-y-axis-100">
+        <div class="container">
+            <div class="section-title text-center pb-55">
+                <h4 class="title mb-0">Tin tức về sách</h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="swiper-container blog-slider">
+                        <div class="swiper-wrapper">
+                            @foreach (var item in Model.TinTucs)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="blog-item">
+                                        <div class="blog-img img-zoom-effect">
+                                            <a href="blog-detail-left-sidebar.html">
+                                                <img style="width:200px" class="img-full" src="/images/post/@item.Thumb" alt="@item.Title">
+                                            </a>
+                                        </div>
+                                        <div class="blog-content">
+                                            <div class="blog-meta text-dim-gray pb-3">
+                                                <ul>
+                                                    <li class="date"><i class="fa fa-calendar-o me-2"></i>@item.CreatedDate</li>
+                                                </ul>
+                                            </div>
+                                            <h5 class="title mb-4">
+                                                <a href="blog-detail-left-sidebar.html">@item.Title</a>
+                                            </h5>
+                                            <p style="overflow: hidden;text-overflow: ellipsis;-webkit-line-clamp: 3;display: -webkit-box;-webkit-box-orient: vertical;" class="short-desc mb-5">@item.Contents</p>
+                                            <div class="button-wrap">
+                                                <a class="btn btn-custom-size btn-dark btn-lg rounded-0" href="blog-detail-left-sidebar.html">Chi tiết</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <!-- Add Arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- Blog Area End Here -->

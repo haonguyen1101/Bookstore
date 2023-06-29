@@ -1,0 +1,145 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<Bookstore.Entity.TbCustomer>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var number = 1;
+}
+
+
+<div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="Close" type="button" class="close btn btn-danger btn-tone m-r-5" data-dismiss="modal">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="sub-modal">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="">
+    <div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            </nav>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h4>Quản lý tài khoản</h4>
+            <hr />
+            <div class="input-group rounded" style="width:300px">
+                        <input id="keyword" name="keyword" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <span class="input-group-text border-0" id="search-addon">
+                            <i class='bx bx-search'></i>
+                        </span>
+                    </div>
+            <div class="m-t-25">
+                <table id="data-table" class="table ">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên khách hàng</th>
+                            <th>Thông tin liên lạc</th>
+                            <th>Ngày tạo tài khoản</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="records_table">
+                        @if (Model != null)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @number
+                                        @{
+                                            number++;
+                                        }
+                                    </td>
+                                    <td>@item.FullName</td>
+                                    <td>
+                                        <p>@item.Phone</p>
+                                        <p>@item.Email</p>
+                                        <p>@item.Address</p>
+                                    </td>
+                                    <td>@item.CreateDate</td>
+                                    <td class="">
+                                        @if (item.Active == true)
+                                        {
+                                            <span class="badge badge-pill badge-success">True</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-pill badge-danger">False</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @*<button class="btn btn-warning btn-tone m-r-5 edit" value="@item.CustomerId"><i class='bx bx-edit-alt'></i></button>*@
+                                        @*<button class="btn btn-danger btn-tone m-r-5 delete" value="@item.TypeId"><i class='bx bx-trash-alt'></i></button>*@
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <div aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <pager class="pagination" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusFirstAndLast" asp-area="Admin" asp-controller="AdminCustomer" asp-action="CustomerIndex" />
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#Close').click(function () {
+                $("#modal").removeClass('d-block');
+            });
+
+            $('#Create').click(function () {
+                $("#modal").addClass('d-block');
+                let str = "/Admin/AdminCustomer/CustomerCreate/";
+                $("#sub-modal").load(str);
+            });
+
+            $('.edit').each(function (index, value) {
+                $(value).click(function () {
+                    $('#modal').addClass('d-block');
+                    let str = "/Admin/AdminCustomer/CustomerEdit/" + $(value).val();
+                    console.log($(value).val());
+                    $('#sub-modal').load(str);
+                });
+            });
+
+            $("#keyword").keyup(function () {
+                var strkeyword = $('#keyword').val();
+                $.ajax({
+                    url: '/Admin/Search/FindCustomer/',
+                    datatype: "json",
+                    type: "POST",
+                    data: { keyword: strkeyword },
+                    async: true,
+                    success: function (results) {
+                        $("#records_table").html("");
+                        $("#records_table").html(results);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+
+        });
+    </script>
+}

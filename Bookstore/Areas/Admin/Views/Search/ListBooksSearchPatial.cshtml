@@ -1,0 +1,65 @@
+﻿@model List<TbBook>
+
+@{
+    var number = 1;
+}
+
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @number
+                @{
+                    number++;
+                }
+            </td>
+            <td>
+                <p class="font-weight-bold">Tên: @item.BookName</p>
+                <p class="font-weight-bold">Thể loại: @item.Type.TypeName</p>
+            </td>
+            <td>
+                @if (item.Price != null)
+                {
+                    <p>@item.Price.Value.ToString("#,##0") VNĐ</p>
+                }
+                else
+                {
+                    <p>@item.Price VNĐ</p>
+                }
+            </td>
+            <td>
+                @if (item.PromotionPrice != null)
+                {
+                    <p>@item.PromotionPrice.Value.ToString("#,##0") VNĐ</p>
+                }
+                else
+                {
+                    <p>@item.PromotionPrice</p>
+                }
+            </td>
+            <td>
+                <img width="120px" src="~/images/books/@item.Image" alt="@item.Image" />
+            </td>
+            <td>
+                @if (item.Status == true)
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="badge rounded-pill bg-success">Đang bán</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="badge rounded-pill bg-danger">Dừng bán</div>
+                    </div>
+                }
+            </td>
+            <td class="text-right">
+                <a asp-controller="AdminBooks" asp-action="BookDetails" asp-route-id="@item.BookId" class="btn btn-outline-primary"><i class='bx bx-detail'></i></a>
+                <a asp-controller="AdminBooks" asp-action="BookEdit" asp-route-id="@item.BookId" class="btn btn-outline-warning"><i class='bx bx-edit-alt'></i></a>
+            </td>
+        </tr>
+    }
+}

@@ -1,0 +1,129 @@
+﻿@model Bookstore.Entity.TbBook
+
+@{
+    ViewData["Title"] = "Sách";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    List<TbBook> lsBooks = ViewBag.Book;
+}
+<hr />
+<div id="view-all" class="single-product-area section-space-top-100">
+       @await Html.PartialAsync("_ViewAll",Model)
+ </div>
+    <div class="product-slider-area section-space-top-95 section-space-bottom-100">
+        <div class="container">
+            <div class="section-title text-center pb-55">
+                <h2 class="title mb-0">Sản phẩm tương tự</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="swiper-slider-holder swiper-arrow">
+                        <div class="swiper-container product-slider border-issue">
+                            <div class="swiper-wrapper">
+                                @if (lsBooks != null)
+                                {
+                                    foreach (var item in lsBooks)
+                                    {
+                                        string url = $"/{item.BookId}_{item.BookName}.html";
+                                        <div class="swiper-slide">
+                                            <div class="product-item">
+                                                <div class="product-img img-zoom-effect">
+                                                    <a href="@url">
+                                                        <img class="img-full" src="/images/books/@item.Image" alt="@item.BookName">
+                                                    </a>
+                                                    <div class="product-add-action">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="cart.html">
+                                                                    <i class="pe-7s-cart"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@url">
+                                                                    <i class="pe-7s-shuffle"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="wishlist.html">
+                                                                    <i class="pe-7s-like"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content texx">
+                                                    <a class="product-name" href="@url">@item.BookName</a>
+                                                    <div class="price-box pb-1">
+                                                        @if (item.PromotionPrice == null)
+                                                        {
+                                                            <p class="text-center mb-0 fw-bold">@item.Price.Value.ToString("#,##0") VNĐ</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="text-center mb-0 fw-bold text-danger">Khuyến mãi @item.PromotionPrice.Value.ToString("#,##0") VNĐ</p>
+                                                        }
+                                                    </div>
+                                                    <div class="rating-box">
+                                                        <ul>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <!-- Add Arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@*@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $(".add-to-cart").click(function () {
+                    var bookid = $('#BookId').val();
+                    var soLuong = $('#txtsoLuong').val();
+                    $.ajax({
+                        url: '/api/cart/add',
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                            bookID: bookid,
+                            amount: soLuong
+                        },
+                        success: function (response) {
+                            if (response.result == 'Redirect') {
+                                window.location = response.url;
+                            }
+                            else {
+                                loadHeaderCart(); //Add Product success
+                                location.reload();
+                            }
+                            console.log(response); // log to the console to see whether it worked
+                        },
+                        error: function (error) {
+                            alert("There was an error posting the data to the server: " + error.responseText);
+                        }
+                    });
+                });
+
+            });
+            function loadHeaderCart() {
+                $('#miniCart').load("/AjaxContent/HeaderCart");
+                $('#numberCart').load("/AjaxContent/NumberCart");
+            }
+        });
+    </script>
+
+}*@

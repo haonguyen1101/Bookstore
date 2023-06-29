@@ -1,0 +1,113 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<Bookstore.Entity.TbPublisher>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var number = 1;
+}
+
+<div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="Close" type="button" class="close btn btn-danger btn-tone m-r-5" data-dismiss="modal">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="sub-modal">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="">
+    <div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            </nav>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h4>Quản lý nhà xuất bản</h4>
+            <button id="Create" class="btn btn-primary m-r-5">Thêm nhà xuất bản</button>
+            <hr />
+            <div class="m-t-25">
+                <table id="data-table" class="table ">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên nhà xuất bản</th>
+                            <th>Trạng thái</th>
+                            <th>Cập nhật</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @number
+                                        @{
+                                            number++;
+                                        }
+                                    </td>
+                                    <td>@item.PublisherName</td>
+                                    <td class="">
+                                        @if (item.Status == true)
+                                        {
+                                            <span class="badge badge-pill badge-success">True</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-pill badge-danger">False</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-warning btn-tone m-r-5 edit" value="@item.PublisherId"><i class='bx bx-edit-alt'></i></button>
+                                        @*<button class="btn btn-danger btn-tone m-r-5 delete" value="@item.TypeId"><i class='bx bx-trash-alt'></i></button>*@
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <div aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <pager class="pagination" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusFirstAndLast" asp-area="Admin" asp-controller="AdminPublisher" asp-action="PublisherIndex" />
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#Close').click(function () {
+                $("#modal").removeClass('d-block');
+            });
+
+            $('#Create').click(function () {
+                $("#modal").addClass('d-block');
+                let str = "/Admin/AdminPublisher/PublisherCreate/";
+                $("#sub-modal").load(str);
+            });
+
+            $('.edit').each(function (index, value) {
+                $(value).click(function () {
+                    $('#modal').addClass('d-block');
+                    let str = "/Admin/AdminPublisher/PublisherEdit/" + $(value).val();
+                    console.log($(value).val());
+                    $('#sub-modal').load(str);
+                });
+            });
+        });
+    </script>
+}

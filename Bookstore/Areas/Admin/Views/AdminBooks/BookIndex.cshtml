@@ -1,0 +1,192 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<Bookstore.Entity.TbBook>
+
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Quản lý sách" + CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var number = 1;
+}
+
+<div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="Close" type="button" class="close btn btn-danger btn-tone m-r-5" data-dismiss="modal">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="sub-modal">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="AdminHome" asp-action="Admin"> <i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+            <div class="input-group rounded" style="width:300px">
+                <input id="keyword" name="keyword" type="search" class="form-control rounded" placeholder="Tìm kiếm sản phẩm" aria-label="Search" aria-describedby="search-addon" />
+                <span class="input-group-text border-0" id="search-addon">
+                    <i class='bx bx-search'></i>
+                </span>
+            </div>
+            <hr />
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select id="txtTypeID" class="custom-select" style="min-width: 180px;" asp-items="ViewBag.TheLoai">
+                            <option value="" disabled selected>Chọn thể loại</option>
+                            <option value="0">Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminBooks" asp-action="BookCreate">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Thêm sách</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table style="text-align:center" class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Thông tin</th>
+                        <th>Giá</th>
+                        <th>Khuyến mãi</th>
+                        <th>Ảnh</th>
+                        <th>Trạng thái</th>
+                        <th>Cập nhật</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align:left" id="records_table">
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @number
+                                    @{
+                                        number++;
+                                    }
+                                </td>
+                                <td>
+                                    <p class="font-weight-bold">Tên: @item.BookName</p>
+                                    <p class="font-weight-bold">Thể loại: @item.Type.TypeName</p>
+                                </td>
+                                <td>
+                                    @if (item.Price != null)
+                                    {
+                                        <p>@item.Price.Value.ToString("#,##0") VNĐ</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@item.Price VNĐ</p>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.PromotionPrice != null)
+                                    {
+                                        <p>@item.PromotionPrice.Value.ToString("#,##0") VNĐ</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@item.PromotionPrice</p>
+                                    }
+                                </td>
+                                <td>
+                                    <img width="120px" src="~/images/books/@item.Image" alt="@item.Image" />
+                                </td>
+                                <td>
+                                    @if (item.Status == true)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge rounded-pill bg-success">Đang bán</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge rounded-pill bg-danger">Dừng bán</div>
+                                        </div>
+                                    }
+                                </td>
+                                <td class="text-right">
+                                    <a asp-controller="AdminBooks" asp-action="BookDetails" asp-route-id="@item.BookId" class="btn btn-outline-primary"><i class='bx bx-detail'></i></a>
+                                    <a asp-controller="AdminBooks" asp-action="BookEdit" asp-route-id="@item.BookId" class="btn btn-outline-warning"><i class='bx bx-edit-alt'></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <div aria-label="Page navigation example">
+                <ul class="pagination">
+                    <pager class="pagination" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusFirstAndLast" asp-route-TypeID="@ViewBag.CurrentTypeID" asp-area="Admin" asp-controller="AdminBooks" asp-action="BookIndex" />
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            jQuery("#txtTypeID").change(function () {
+                var typeID = jQuery(this).children(":selected").attr("value");
+                typeID = parseFloat(typeID);
+                $('#txtTypeID option').removeAttr('selected');
+                $("#txtTypeID > [value =" + typeID + "]").attr("selected", "true");
+                $.ajax({
+                    url: '/Admin/AdminBooks/Filtter',
+                    dataType: "json",
+                    type: "GET",
+                    data: {
+                        TypeID: typeID
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+
+            $("#keyword").keyup(function () {
+                var strkeyword = $('#keyword').val();
+                $.ajax({
+                    url: '/Admin/Search/FindProduct/',
+                    datatype: "json",
+                    type: "POST",
+                    data: { keyword: strkeyword },
+                    async: true,
+                    success: function (results) {
+                        $("#records_table").html("");
+                        $("#records_table").html(results);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+
+        });
+    </script>
+}

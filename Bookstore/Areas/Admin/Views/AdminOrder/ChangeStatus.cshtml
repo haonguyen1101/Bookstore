@@ -1,0 +1,40 @@
+﻿@model Bookstore.Entity.TbOrder
+
+
+@{
+    Layout = null;
+}
+
+<h3 class="text-warning">Cập nhật trạng thái đơn hàng</h3>
+<hr />
+<form asp-area="Admin" asp-controller="AdminOrder" asp-action="ChangeStatus" asp-route-id="@Model.OrderId" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="OrderId" />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Chọn trạng thái đơn hàng</label>
+				<select onchange="changeDD(@Model.OrderId, value)" class="form-control" asp-for="TransactStatusId" asp-items="ViewBag.TrangThai">
+                </select>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Lưu</button>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script>
+	async function changeDD(madondat, trangthaiid) {
+		//console.log test du lieu tren f12
+		console.log(trangthaiid);
+		await $.ajax({
+			type: "POST", url: '/Admin/AdminOrder/ChangeStatus/', data: { madondat: madondat, trangthaiid: trangthaiid }, success: function (response) {
+				if (response.success) {
+				}
+			},
+			error: function (reponse) {
+				alert("error!");
+			}
+		});
+		location.reload();
+	}
+</script>

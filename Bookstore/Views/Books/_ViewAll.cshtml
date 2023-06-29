@@ -1,0 +1,221 @@
+﻿@model Bookstore.Entity.TbBook
+
+@{
+    Layout = null;
+}
+
+<div >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="single-product-img h-100">
+                    <div class="swiper-container single-product-slider">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <a class="single-img gallery-popup">
+                                    <img class="" src="/images/books/@Model.Image" alt="Product Image">
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="assets/images/product/large-size/2-2-555x645.jpg" class="single-img gallery-popup">
+                                    <img class="img-full" src="assets/images/product/large-size/2-2-555x645.jpg" alt="Product Image">
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="assets/images/product/large-size/2-3-555x645.jpg" class="single-img gallery-popup">
+                                    <img class="img-full" src="assets/images/product/large-size/2-3-555x645.jpg" alt="Product Image">
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="assets/images/product/large-size/2-4-555x645.jpg" class="single-img gallery-popup">
+                                    <img class="img-full" src="assets/images/product/large-size/2-4-555x645.jpg" alt="Product Image">
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="product-thumb-with-content row">
+                    <div class="col-12 order-lg-1 order-2 pt-10 pt-lg-0">
+                        <div class="single-product-content">
+                            <h2 class="title">@Model.BookName</h2>
+                            <div class="price-box pb-1">
+                                @if (Model.PromotionPrice == null)
+                                {
+                                    <span class="new-price text-danger">@Model.Price.Value.ToString("#,##0") VNĐ</span>
+                                }
+                                else
+                                {
+                                    <span class="old-price text-primary ">@Model.Price.Value.ToString("#,##0") VNĐ</span>
+                                    <span class="new-price text-danger">@Model.PromotionPrice.Value.ToString("#,##0") VNĐ</span>
+                                }
+                            </div>
+                            <div class="rating-box-wrap pb-7">
+                                <div class="rating-box">
+                                    <ul>
+                                        <li><i class="pe-7s-star"></i></li>
+                                        <li><i class="pe-7s-star"></i></li>
+                                        <li><i class="pe-7s-star"></i></li>
+                                        <li><i class="pe-7s-star"></i></li>
+                                        <li><i class="pe-7s-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <ul class="quantity-with-btn pb-7">
+                                <li class="quantity">
+                                    <div class="cart-plus-minus">
+                                        <input id="txtsoLuong" name="txtsoLuong" class="cart-plus-minus-box" value="1" type="number" onchange="changeQuality(@Model.BookId , value)">
+                                    </div>
+                                </li>
+                                <li class="add-to-cart">
+                                    <a class="btn btn-custom-size lg-size btn-primary btn-secondary-hover rounded-0" onclick="add()">Thêm vào giỏ hàng</a>
+                                    <input hidden asp-for="BookId" />
+                                </li>
+                                <li class="wishlist-btn-wrap">
+                                    <a class="btn rounded-0" href="wishlist.html">
+                                        <i class="pe-7s-like"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="product-category text-matterhorn pb-2">
+                                <span class="title">Tác giả :</span>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0)">@Model.Author</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="product-category text-matterhorn pb-2">
+                                <span class="title">Thể loại :</span>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0)">@Model.Type.TypeName</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="product-category product-tags text-matterhorn pb-4">
+                                <span class="title">Nhà xuất bản :</span>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0)">@Model.Publisher.PublisherName</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="product-category product-tags text-matterhorn pb-4">
+                                <span class="title">Năm phát hành :</span>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0)">@Model.PublishYear</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 order-lg-2 order-1 pt-10 pt-lg-0">
+                        <div class="swiper-container single-product-thumbs">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script>
+    function changeQuality(productid, quantity) {
+        $.ajax({
+            type: 'POST',
+            url: '/Books/UpdateSL/',
+            data: { productid: productid, quantity: quantity },
+            success: function (response) {
+                if (response.isValid) {
+                    //$('#view-all').html(response.html);
+                }
+                else {
+                    $('#view-all').html(response.html);
+                    var input1 = document.getElementById('txtsoLuong');
+                    input1.value = response.sl;
+                    input1.innerHTML = response.sl;
+                    alert("Số lượng sản phẩm tồn kho còn:" + " " + response.sl)
+                }
+            },
+            error: function (response) {
+                alert("error!");
+            }
+        });
+    }
+
+    function add() {
+        var bookid = $('#BookId').val();
+        var soLuong = $('#txtsoLuong').val();
+        console.log(bookid);
+        console.log(soLuong);
+        $.ajax({
+            url: '/api/cart/add',
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                bookID: bookid,
+                amount: soLuong
+            },
+            success: function (response) {
+                if (response.isVad ) {
+                    window.location = "/shop.html";
+                }
+                else {
+                    loadHeaderCart(); //Add Product success
+                    location.reload();
+                }
+                console.log(response); // log to the console to see whether it worked
+            },
+            error: function (error) {
+                alert("There was an error posting the data to the server: " + error.responseText);
+            }
+         });
+    }
+</script>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $(".add-to-cart").click(function () {
+                    var bookid = $('#BookId').val();
+                    var soLuong = $('#txtsoLuong').val();
+                    $.ajax({
+                        url: '/api/cart/add',
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                            bookID: bookid,
+                            amount: soLuong
+                        },
+                        success: function (response) {
+                            if (response.result == 'Redirect') {
+                                window.location = response.url;
+                            }
+                            else {
+                                loadHeaderCart(); //Add Product success
+                                location.reload();
+                            }
+                            console.log(response); // log to the console to see whether it worked
+                        },
+                        error: function (error) {
+                            alert("There was an error posting the data to the server: " + error.responseText);
+                        }
+                    });
+                });
+
+            });
+            function loadHeaderCart() {
+                $('#miniCart').load("/AjaxContent/HeaderCart");
+                $('#numberCart').load("/AjaxContent/NumberCart");
+            }
+        });
+    </script>
+
+}

@@ -1,0 +1,117 @@
+﻿<div class="side-nav-inner">
+    <ul class="side-nav-menu scrollable">
+        <li class="nav-item dropdown open">
+            <a asp-area="Admin" asp-controller="AdminHome" asp-action="Admin">
+                <span class="icon-holder">
+                    <i class="anticon anticon-dashboard"></i>
+                </span>
+                <span class="title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="dropdown-toggle" href="javascript:void(0);">
+                <span class="icon-holder">
+                    <i class="anticon anticon-appstore"></i>
+                </span>
+                <span class="title">Quản lý khách hàng</span>
+                <span class="arrow">
+                    <i class="arrow-icon"></i>
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a asp-area="Admin" asp-controller="AdminCustomer" asp-action="CustomerIndex">Danh sách khách hàng</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="dropdown-toggle" href="javascript:void(0);">
+                <span class="icon-holder">
+                    <i class="anticon anticon-build"></i>
+                </span>
+                <span class="title">Quản lý sản phẩm</span>
+                <span class="arrow">
+                    <i class="arrow-icon"></i>
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a asp-area="Admin" asp-controller="AdminBookType" asp-action="BookTypeIndex">Quản lý thể loại sách</a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="AdminBooks" asp-action="BookIndex">Quản lý sách</a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="AdminPublisher" asp-action="PublisherIndex">Nhà xuất bản</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="dropdown-toggle" href="javascript:void(0);">
+                <span class="icon-holder">
+                    <i class="anticon anticon-form"></i>
+                </span>
+                <span class="title">Quản lý đơn hàng</span>
+                <span class="arrow">
+                    <i class="arrow-icon"></i>
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a asp-area="Admin" asp-controller="AdminOrder" asp-action="OrderIndex">Danh sách đơn hàng</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="dropdown-toggle" href="javascript:void(0);">
+                <span class="icon-holder">
+                    <i class="anticon anticon-table"></i>
+                </span>
+                <span class="title">Quản lý Blog</span>
+                <span class="arrow">
+                    <i class="arrow-icon"></i>
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a asp-area="Admin" asp-controller="AdminPosts" asp-action="PostIndex">Tin tức</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="dropdown-toggle" href="javascript:void(0);">
+                <span class="icon-holder">
+                    <i class="anticon anticon-pie-chart"></i>
+                </span>
+                <span class="title">Thống kê</span>
+                <span class="arrow">
+                    <i class="arrow-icon"></i>
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a asp-area="Admin" asp-controller="AdminThongKe" asp-action="ThongKe">Thống kê</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="dropdown-toggle" href="javascript:void(0);">
+                <span class="icon-holder">
+                    <i class="anticon anticon-lock"></i>
+                </span>
+                <span class="title">Tài khoản</span>
+                <span class="arrow">
+                    <i class="arrow-icon"></i>
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="login-1.html">Đổi mật khẩu</a>
+                </li>
+                <li>
+                    <a href="/dang-xuat.html">Đăng xuất</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

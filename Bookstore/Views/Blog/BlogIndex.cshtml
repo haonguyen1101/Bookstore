@@ -1,0 +1,52 @@
+﻿@using PagedList.Core.Mvc;
+@model PagedList.Core.IPagedList<Bookstore.Entity.TbPost>
+
+@{
+    ViewData["Title"] = "BlogIndex";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="blog-area blog-column-2 section-space-y-axis-100">
+    <div class="container">
+        <div class="row">
+            @if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    @if (item.Status == true)
+                    {
+                        <div class="col-md-6">
+                            <div class="blog-item">
+                                <div class="blog-img img-zoom-effect">
+                                    <a href="blog-detail-left-sidebar.html">
+                                        <img style="width:200px" class="img-full" src="~/images/post/@item.Thumb" alt="@item.Thumb">
+                                    </a>
+                                </div>
+                                <div class="blog-content">
+                                    <div class="blog-meta text-dim-gray pb-3">
+                                        <ul>
+                                            <li class="date"><i class="fa fa-calendar-o me-2"></i>@item.CreatedDate</li>
+                                        </ul>
+                                    </div>
+                                    <h5 class="title mb-4">
+                                        <a href="blog-detail-left-sidebar.html">@item.Title</a>
+                                    </h5>
+                                    <p style="overflow: hidden;text-overflow: ellipsis;-webkit-line-clamp: 3;display: -webkit-box;-webkit-box-orient: vertical;" class="short-desc mb-5">@item.Contents</p>
+                                    <div class="button-wrap">
+                                        <a class="btn btn-custom-size lg-size btn-dark rounded-0" href="blog-detail-left-sidebar.html">Chi tiết</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+            <div class="pagination-area pt-10">
+                    <ul class="pagination justify-content-center">
+                        <pager class="page-container" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusFirstAndLast" list="@Model" asp-controller="Posts" asp-action="BlogIndex"></pager>
+                    </ul>
+                </div>
+        </div>
+    </div>
+</div>
+

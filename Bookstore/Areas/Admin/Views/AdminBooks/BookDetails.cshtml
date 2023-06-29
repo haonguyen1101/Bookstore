@@ -1,0 +1,241 @@
+﻿@model Bookstore.Entity.TbBook
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="m-b-15">
+            <a asp-controller="AdminBooks" asp-action="BookIndex" class="btn btn-danger">
+                <i class="anticon anticon-edit"></i>
+                <span>Trở về</span>
+            </a>
+        </div>
+        <div class="m-b-15">
+            <a asp-controller="AdminBooks" asp-action="BookEdit" asp-route-id="@Model.BookId" class="btn btn-primary">
+                <i class="anticon anticon-edit"></i>
+                <span>Cập nhật</span>
+            </a>
+        </div>
+    </div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#product-overview">Thông tin sách</a>
+        </li>
+@*        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#product-images">Product Images</a>
+        </li>*@
+    </ul>
+</div>
+<div class="container-fluid">
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-overview">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media align-items-center">
+                                <i class="font-size-40 text-success anticon anticon-smile"></i>
+                                <div class="m-l-15">
+                                    <p class="m-b-0 text-muted">10 ratings</p>
+                                    <div class="star-rating m-t-5">
+                                        <input type="radio" id="star3-5" name="rating-3" value="5" checked disabled /><label for="star3-5" title="5 star"></label>
+                                        <input type="radio" id="star3-4" name="rating-3" value="4" disabled /><label for="star3-4" title="4 star"></label>
+                                        <input type="radio" id="star3-3" name="rating-3" value="3" disabled /><label for="star3-3" title="3 star"></label>
+                                        <input type="radio" id="star3-2" name="rating-3" value="2" disabled /><label for="star3-2" title="2 star"></label>
+                                        <input type="radio" id="star3-1" name="rating-3" value="1" disabled /><label for="star3-1" title="1 star"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media align-items-center">
+                                <i class="font-size-40 text-primary anticon anticon-shopping-cart"></i>
+                                <div class="m-l-15">
+                                    <p class="m-b-0 text-muted">Sales</p>
+                                    <h3 class="m-b-0 ls-1">1,521</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media align-items-center">
+                                <i class="font-size-40 text-primary anticon anticon-message"></i>
+                                <div class="m-l-15">
+                                    <p class="m-b-0 text-muted">Reviews</p>
+                                    <h3 class="m-b-0 ls-1">27</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media align-items-center">
+                                <i class="font-size-40 text-primary anticon anticon-stock"></i>
+                                <div class="m-l-15">
+                                    <p class="m-b-0 text-muted">Available Stock</p>
+                                    <h3 class="m-b-0 ls-1">152</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thông tin sách</h4>
+                    <div class="table-responsive">
+                        <table class="product-info-table m-t-20">
+                            <tbody>
+                                <tr>
+                                    <td>ID:</td>
+                                    <td class="text-dark font-weight-semibold">@Model.BookId</td>
+                                </tr>
+                                <tr>
+                                    <td>Tên sách:</td>
+                                    <td>@Model.BookName</td>
+                                </tr>
+                                <tr>
+                                    <td>Tác giả:</td>
+                                    <td>@Model.Author</td>
+                                </tr>
+                                <tr>
+                                    <td>Thể loại:</td>
+                                    <td>@Model.Type.TypeName</td>
+                                </tr>
+                                <tr>
+                                    <td>Nhà xuất bản:</td>
+                                    <td>@Model.Publisher.PublisherName</td>
+                                </tr>
+                                <tr>
+                                    <td>Ngôn ngữ:</td>
+                                    <td>@Model.Language</td>
+                                </tr>
+                                <tr>
+                                    <td>Người dịch:</td>
+                                    <td>@Model.Translator</td>
+                                </tr>
+                                <tr>
+                                    <td>Năm phát hành:</td>
+                                    <td>@Model.PublishYear</td>
+                                </tr>
+                                <tr>
+                                    <td>Số trang:</td>
+                                    <td>@Model.Page</td>
+                                </tr>
+                                <tr>
+                                    <td>Hình ảnh:</td>
+                                    <td><img width="120px" src="~/images/books/@Model.Image" alt="@Model.Image" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Trạng thái:</td>
+                                    <td>
+                                        @if (Model.Status == true)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge rounded-pill bg-success">Đang bán</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge rounded-pill bg-danger">Dừng bán</div>
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Seo</h4>
+                    <div class="table-responsive">
+                        <table class="product-info-table m-t-20">
+                            <tbody>
+                                <tr>
+                                    <td>Giá:</td>
+                                    <td>@Model.Price.Value.ToString("#,##0") VNĐ</td>
+                                </tr>
+                                <tr>
+                                    <td>Giá khuyến mãi:</td>
+                                    <td>
+                                    @if (Model.PromotionPrice != null)
+                                    {
+                                        @Model.PromotionPrice.Value.ToString("#,##0")
+                                    }
+                                    else
+                                    {
+                                        @Model.PromotionPrice
+                                    }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Số lượng:</td>
+                                    <td>@Model.Quantity</td>
+                                </tr>
+                                <tr>
+                                    <td>IsHot:</td>
+                                    <td>
+                                        @if (Model.IsHot == true)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge rounded-pill bg-success">Sản phẩm bán chạy</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge rounded-pill bg-danger"></div>
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Chi tiết</h4>
+                </div>
+                <div class="card-body">
+                    <p>Special cloth alert. The key to more success is to have a lot of pillows. Surround yourself with angels, positive energy, beautiful people, beautiful souls, clean heart, angel. They will try to close the door on you, just open it. A major key, never panic. Don’t panic, when it gets crazy and rough, don’t panic, stay calm. They key is to have every key, the key to open every door.</p>
+                    <p>The other day the grass was brown, now it’s green because I ain’t give up. Never surrender. Lion! I’m up to something. Always remember in the jungle there’s a lot of they in there, after you overcome they, you will make it to paradise.</p>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="product-images">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img class="img-fluid" src="assets/images/others/product-1.jpg" alt="">
+                        </div>
+                        <div class="col-md-3">
+                            <img class="img-fluid" src="assets/images/others/product-2.jpg" alt="">
+                        </div>
+                        <div class="col-md-3">
+                            <img class="img-fluid" src="assets/images/others/product-3.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

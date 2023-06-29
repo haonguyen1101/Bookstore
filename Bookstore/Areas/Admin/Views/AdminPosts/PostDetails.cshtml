@@ -1,0 +1,133 @@
+﻿@model Bookstore.Entity.TbPost
+
+@{
+    ViewData["Title"] = "Chi tiết tin tức";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="m-b-15">
+            <a asp-controller="AdminPosts" asp-action="PostIndex" class="btn btn-danger">
+                <i class="anticon anticon-edit"></i>
+                <span>Trở về</span>
+            </a>
+        </div>
+        <div class="m-b-15">
+            <a asp-controller="AdminPosts" asp-action="PostEdit" asp-route-id="@Model.PostId" class="btn btn-primary">
+                <i class="anticon anticon-edit"></i>
+                <span>Cập nhật</span>
+            </a>
+        </div>
+    </div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#product-overview">Chi tiết tin</a>
+        </li>
+        @*        <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#product-images">Product Images</a>
+        </li>*@
+    </ul>
+</div>
+<div class="container-fluid">
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-overview">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="product-info-table m-t-20">
+                            <tbody>
+                                <tr>
+                                    <td>ID:</td>
+                                    <td class="text-dark font-weight-semibold">@Model.PostId</td>
+                                </tr>
+                                <tr>
+                                    <td>Tên sách:</td>
+                                    <td>@Model.Title</td>
+                                </tr>
+                                <tr>
+                                    <td>Năm phát hành:</td>
+                                    <td>@Model.CreatedDate</td>
+                                </tr>
+                                <tr>
+                                    <td>Hình ảnh:</td>
+                                    <td><img width="120px" src="~/images/post/@Model.Thumb" alt="@Model.Title" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Trạng thái:</td>
+                                    <td>
+                                        @if (Model.Status == true)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge rounded-pill bg-success">True</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge rounded-pill bg-danger">Fail</div>
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="product-info-table m-t-20">
+                            <tbody>
+                                <tr>
+                                    <td>IsHot:</td>
+                                    <td>
+                                        @if (Model.IsNewfeed == true)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge rounded-pill bg-success">Tin hot</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge rounded-pill bg-danger"></div>
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Nội dung</h4>
+                </div>
+                <div class="card-body">
+                    <p>@Model.Contents</p>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="product-images">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img class="img-fluid" src="assets/images/others/product-1.jpg" alt="">
+                        </div>
+                        <div class="col-md-3">
+                            <img class="img-fluid" src="assets/images/others/product-2.jpg" alt="">
+                        </div>
+                        <div class="col-md-3">
+                            <img class="img-fluid" src="assets/images/others/product-3.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

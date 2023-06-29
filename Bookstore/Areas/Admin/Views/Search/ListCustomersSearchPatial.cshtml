@@ -1,0 +1,41 @@
+﻿@model List<TbCustomer>
+
+@{
+    var number = 1;
+}
+
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @number
+                @{
+                    number++;
+                }
+            </td>
+            <td>@item.FullName</td>
+            <td>
+                <p>@item.Phone</p>
+                <p>@item.Email</p>
+                <p>@item.Address</p>
+            </td>
+            <td>@item.CreateDate</td>
+            <td class="">
+                @if (item.Active == true)
+                {
+                    <span class="badge badge-pill badge-success">True</span>
+                }
+                else
+                {
+                    <span class="badge badge-pill badge-danger">False</span>
+                }
+            </td>
+            <td>
+                <button class="btn btn-warning btn-tone m-r-5 edit" value="@item.CustomerId"><i class='bx bx-edit-alt'></i></button>
+                @*<button class="btn btn-danger btn-tone m-r-5 delete" value="@item.TypeId"><i class='bx bx-trash-alt'></i></button>*@
+            </td>
+        </tr>
+    }
+}

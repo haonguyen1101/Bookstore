@@ -1,0 +1,115 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<Bookstore.Entity.TbPost>
+
+@{
+    ViewData["Title"] = "Quản lý tin tức";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var number = 1;
+}
+
+<div class="">
+    <div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a asp-area="Admin" asp-controller="AdminHome" asp-action="Admin"> <i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            </nav>
+        </div>>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h4>Quản lý tin tức</h4>
+            <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminPosts" asp-action="PostCreate">
+                <i class="anticon anticon-plus-circle m-r-5"></i>
+                <span>Thêm tin</span>
+            </a>
+            <hr />
+            <div class="m-t-25">
+                <table id="data-table" class="table ">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tiêu đề</th>
+                            <th>Ngày tạo</th>
+                            <th>Ảnh</th>
+                            <th>Trạng thái</th>
+                            <th>Cập nhật</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @number
+                                        @{
+                                            number++;
+                                        }
+                                    </td>
+                                    <td>@item.Title</td>
+                                    <td>@item.CreatedDate</td>
+                                    <td><img width="120px" src="~/images/post/@item.Thumb" alt="@item.Thumb" /></td>
+                                    <td class="">
+                                        @if (item.Status == true)
+                                        {
+                                            <span class="badge badge-pill badge-success">True</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-pill badge-danger">False</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-controller="AdminPosts" asp-action="PostDetails" asp-route-id="@item.PostId" class="btn btn-outline-primary"><i class='bx bx-detail'></i></a>
+                                        <a asp-controller="AdminPosts" asp-action="PostEdit" asp-route-id="@item.PostId" class="btn btn-outline-warning"><i class='bx bx-edit-alt'></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <div aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <pager class="pagination" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusFirstAndLast" asp-area="Admin" asp-controller="AdminBookType" asp-action="BookTypeIndex" />
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#Close').click(function () {
+                $("#modal").removeClass('d-block');
+            });
+
+            $('#Create').click(function () {
+                $("#modal").addClass('d-block');
+                let str = "/Admin/AdminPosts/PostCreate/";
+                $("#sub-modal").load(str);
+            });
+
+            $('.edit').each(function (index, value) {
+                $(value).click(function () {
+                    $('#modal').addClass('d-block');
+                    let str = "/Admin/AdminPosts/PostEdit/" + $(value).val();
+                    console.log($(value).val());
+                    $('#sub-modal').load(str);
+                });
+            });
+
+            $('.delete').each(function (index, value) {
+                $(value).click(function () {
+                    $('#modal').addClass('d-block');
+                    let str = "/Admin/AdminPosts/PostDelete/" + $(value).val();
+                    console.log($(value).val());
+                    $('#sub-modal').load(str);
+                });
+            });
+        });
+    </script>
+}

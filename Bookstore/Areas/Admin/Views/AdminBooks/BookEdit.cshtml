@@ -1,0 +1,181 @@
+﻿@model Bookstore.Entity.TbBook
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form asp-controller="AdminBooks" asp-action="BookEdit" asp-route-id="@Model.BookId" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="BookId" />
+    <input type="hidden" asp-for="Image" />
+    <div class="page-header no-gutters has-tab">
+        <div class="d-md-flex m-b-15 align-items-right justify-content-between">
+            <div class="media align-items-center m-b-15">
+                
+            </div>
+            <div class="m-b-15">
+                <button type="submit" class="btn btn-primary">
+                    <i class="anticon anticon-save"></i>
+                    <span>Lưu</span>
+                </button>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">Thông tin sách</a>
+            </li>
+            @*<li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#product-edit-option">Option Info</a>
+            </li>*@
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#product-edit-description">Mô tả</a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-edit-basic">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="font-weight-semibold">Tên sách</label>
+                        <input type="text" class="form-control" asp-for="BookName">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold">Tác giả</label>
+                        <input type="text" class="form-control" asp-for="Author">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-semibold" for="productCategory">Thể loại</label>
+                            <select class="custom-select" asp-for="TypeId" asp-items="ViewBag.TheLoai">
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-semibold" for="productCategory">Nhà xuất bản</label>
+                            <select class="custom-select" asp-for="PublisherId" asp-items="ViewBag.NXB">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label class="font-weight-semibold">Ngôn ngữ</label>
+                            <input type="text" class="form-control" asp-for="Language">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="font-weight-semibold">Người dịch</label>
+                            <input type="text" class="form-control" asp-for="Translator">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="font-weight-semibold">Năm phát hành</label>
+                            <input type="text" class="form-control" asp-for="PublishYear">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="font-weight-semibold">Số trang</label>
+                            <input type="text" class="form-control" asp-for="Page">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label class="font-weight-semibold">Giá</label>
+                            <input type="text" class="form-control" asp-for="Price">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="font-weight-semibold">Giá khuyến mãi</label>
+                            <input type="text" class="form-control" asp-for="PromotionPrice">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="font-weight-semibold">Số lượng</label>
+                            <input type="text" class="form-control" asp-for="Quantity">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Ảnh chính</label>
+                        <input asp-for="Image" name="fthumb" type="file" class="form-control-file" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-flex align-items-center">
+                        <div class="switch m-r-10">
+                            <input asp-for="Status" type="checkbox" id="switch-1" >
+                            <label for="switch-1"></label>
+                        </div>
+                        <label>Đang bán</label>
+                    </div>
+                    <div class="form-group d-flex align-items-center">
+                        <div class="switch m-r-10">
+                            <input asp-for="IsHot" type="checkbox" id="switch-2">
+                            <label for="switch-2"></label>
+                        </div>
+                        <label>Sản phẩm hot</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="tab-pane fade" id="product-edit-option">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="productSize">Size</label>
+                        <select class="select2" id="productSize" multiple="multiple">
+                            <option value="40" selected>40</option>
+                            <option value="42" selected>42</option>
+                            <option value="44">44</option>
+                            <option value="46">46</option>
+                            <option value="48">48</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="productColors">Colors</label>
+                        <select class="select2" id="productColors" multiple="multiple">
+                            <option value="db" selected>Dark Blue</option>
+                            <option value="g" selected>Gray</option>
+                            <option value="gb" selected>Gray Blue</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="productFit">Fit</label>
+                        <select class="custom-select" id="productFit">
+                            <option value="skinny" selected>Skinny</option>
+                            <option value="slim">Slim</option>
+                            <option value="regular">Regular</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="productMaterial">Material</label>
+                        <select class="select2" id="productMaterial" multiple="multiple">
+                            <option value="polyester" selected>Polyester</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="productShip">Ship From</label>
+                        <select class="custom-select" id="productShip">
+                            <option value="columbia" selected>Columbia</option>
+                            <option value="brazil">Brazil</option>
+                            <option value="chile">Chile</option>
+                            <option value="argentina">Argentina</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        <div class="tab-pane fade" id="product-edit-description">
+            <div class="card">
+                <div class="card-body">
+                    <div id="productDescription">
+                        <p>Special cloth alert. The key to more success is to have a lot of pillows. Surround yourself with angels, positive energy, beautiful people, beautiful souls, clean heart, angel. They will try to close the door on you, just open it. A major key, never panic. Don’t panic, when it gets crazy and rough, don’t panic, stay calm. They key is to have every key, the key to open every door.The other day the grass was brown, now it’s green because I ain’t give up. Never surrender. Lion! I’m up to something. Always remember in the jungle there’s a lot of they in there, after you overcome they, you will make it to paradise.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="~/Admin/assets/vendors/select2/select2.min.js"></script>
+    <script src="~/Admin/assets/vendors/quill/quill.min.js"></script>
+    <script src="~/Admin/assets/js/pages/e-commerce-product-edit.js"></script>
+}
+
+
+

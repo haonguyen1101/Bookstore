@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Bookstore.Entity.TbOrderDetail>
+
+@{
+	Layout = null;
+	double total = 0;
+}
+
+<h3 class="text-primary">Thông tin chi tiết đơn đặt</h3>
+<hr />
+<table class="table" style="border:2px solid black">
+	<thead>
+		<tr class="table-info">
+			<th>
+				Tên sản phẩm
+			</th>
+			<th>
+				Số lượng
+			</th>
+			<th>
+				Giá
+			</th>
+			<th>
+				Thanh toán
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@item.Book.BookName
+				</td>
+				<td>
+					@item.Amount
+				</td>
+				<td>
+					@if (item.Book.PromotionPrice == null)
+					{
+						<p class="text-center mb-0 fw-bold">@item.Book.Price.Value.ToString("#,##0") VNĐ</p>
+					}
+					else
+					{
+						<p class="text-center mb-0 fw-bold text-danger">Khuyến mãi @item.Book.PromotionPrice.Value.ToString("#,##0") VNĐ</p>
+					}
+				</td>
+				<td>
+					@{
+						double val;
+						if (item.PromotionPrice == null)
+						{
+							val = Convert.ToDouble(item.Price) * Convert.ToDouble(item.Amount);
+							total += val;
+						}
+						else
+						{
+							val = Convert.ToDouble(item.PromotionPrice) * Convert.ToDouble(item.Amount);
+							total += val;
+						}
+					}
+					<span class="amount">@val.ToString("#,##0") VNĐ</span>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<hr class="hr" />
+<div class="d-flex flex-row justify-content-between mb-2">
+	<p><b>Tổng cộng</b> </p>
+
+	<p>
+		@total.ToString("#,##0") VNĐ
+	</p>
+</div>
